@@ -6,7 +6,16 @@ import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+//axios.defaults.baseURL = ''  //process.env.SERVER_URL
+//axios.defaults.headers.common.accept = 'application/json';
+
+Vue.use(VueAxios, axios)
+
+
 Vue.config.productionTip = false
+
 
 new Vue({
   router,

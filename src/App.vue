@@ -65,21 +65,6 @@
           </v-col>
 
           <v-col cols="6" sm="12">
-            <p>
-              <v-checkbox
-                v-model="checkbox"
-                :rules="[v => !!v || 'Es necesario aceptar para continuar!']"
-                required
-              >
-                <div slot="label">
-                  ¿Estás de acuerdo?
-                  <a
-                    href="https://asorsalud.com/terminosycondiciones.html"
-                    target="_blank"
-                  >Términos y condiciones de Asorsalud SM</a>
-                </div>
-              </v-checkbox>
-            </p>
             <v-btn color="success" class="mr-4" x-large @click="validate">Continuar</v-btn>
           </v-col>
         </v-row>
@@ -151,11 +136,19 @@
       <v-row>
         <v-col>
           <v-alert outlined type="warning" prominent color="gray" border="left">
-            Acepto los
-            <a
-              href="https://asorsalud.com/terminosycondiciones.html"
-              target="_blank"
-            >términos y condiciones</a> que se encuentran en el consentimiento informado para la atención por telemedicina.
+            <v-checkbox
+              v-model="checkbox"
+              :rules="[v => !!v || 'Es necesario aceptar para continuar!']"
+              required
+            >
+              <div slot="label">
+                Acepto los
+                <a
+                  href="https://asorsalud.com/terminosycondiciones.html"
+                  target="_blank"
+                >términos y condiciones</a> que se encuentran en el consentimiento informado para la atención por telemedicina.
+              </div>
+            </v-checkbox>
           </v-alert>
         </v-col>
         <v-col cols="auto">
@@ -197,7 +190,6 @@ export default {
     step: 1,
     valid: true,
     name: "",
-
     nameRules: [
       v => !!v || "Nombre es requerido",
       v => (v && v.length >= 8) || "El nombre debe tener mínimo 8 caracteres."
@@ -235,8 +227,27 @@ export default {
       this.$refs.form.resetValidation();
     },
     sendForm() {
-      this.step = 3;
-      //axios
+      if (
+        this.name != "" &&
+        this.phone != "" &&
+        this.phone != "" &&
+        this.email != "" &&
+        this.select != "" &&
+        this.checkbox == true
+      ) {
+        this.axios
+          .post("inc.php", {
+            f: "save_consentimiento",
+            name: this.name,
+            documento: this.documento,
+            phone: this.phone,
+            email: this.email,
+            select: this.select
+          })
+          .then(response => ((this.info = response), (this.step = 3)));
+      } else {
+        alert("Debe aceptar los términos y condiciones");
+      }
     }
   }
 };
