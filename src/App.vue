@@ -22,7 +22,7 @@
 
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-row align="center" justify="center">
-          <v-col cols="6" sm="12">
+          <v-col cols="12">
             <v-text-field
               v-model="name"
               :counter="0"
@@ -32,7 +32,7 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="6" sm="12">
+          <v-col cols="12">
             <v-text-field
               v-model="documento"
               :rules="phoneRules"
@@ -41,7 +41,7 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="6" sm="12">
+          <v-col cols="12">
             <v-text-field
               v-model="phone"
               :rules="documentoRules"
@@ -50,11 +50,11 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="6" sm="12">
+          <v-col cols="12">
             <v-text-field v-model="email" :rules="emailRules" label="Correo electrónico" required></v-text-field>
           </v-col>
 
-          <v-col cols="6" sm="12">
+          <v-col cols="12">
             <v-select
               v-model="select"
               :items="items"
@@ -64,7 +64,7 @@
             ></v-select>
           </v-col>
 
-          <v-col cols="6" sm="12">
+          <v-col cols="12">
             <v-btn color="success" class="mr-4" x-large @click="validate">Continuar</v-btn>
           </v-col>
         </v-row>
@@ -122,6 +122,9 @@
         <li>
           <p>Es difícil asegurar la correcta interpretación en zonas aisladas por parte del paciente o de sus familiares cuando sea necesaria su colaboración en la aplicación de medicamentos.</p>
         </li>
+        <li>
+          <p>Los servicios prestados por telemedicina pueden no ser tan completos como la prestación presencial.</p>
+        </li>
       </ul>
 
       <h3>PACIENTE</h3>
@@ -141,15 +144,15 @@
               :rules="[v => !!v || 'Es necesario aceptar para continuar!']"
               required
             >
-              <div slot="label">
-                Acepto los
-                <a
-                  href="https://asorsalud.com/terminosycondiciones.html"
-                  target="_blank"
-                >términos y condiciones</a> que se encuentran en el consentimiento informado para la atención por telemedicina.
-              </div>
+              <div
+                slot="label"
+              >Acepto los términos y condiciones que se encuentran en el consentimiento informado para la atención por telemedicina.</div>
             </v-checkbox>
           </v-alert>
+          <a
+            href="https://asorsalud.com/terminosycondiciones.html"
+            target="_blank"
+          >Ver los términos y condiciones de Asorsalud SM Ltda</a>
         </v-col>
         <v-col cols="auto">
           <v-btn x-large color="success" @click="sendForm()">Firmar consentimiento</v-btn>
@@ -187,7 +190,7 @@ export default {
   },
 
   data: () => ({
-    step: 1,
+    step: 2,
     valid: true,
     name: "",
     nameRules: [

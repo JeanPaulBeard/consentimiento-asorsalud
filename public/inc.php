@@ -41,7 +41,7 @@ function save_consentimiento($data)
 
         $mbd = new PDO('mysql:host=localhost;dbname=asorsalu_consentimiento', "asorsalu_jean", "Camelar01");
 
-        $sql = "INSERT INTO consentimientos(nombres, documento, phone, mail, req_acomp, user_agent, ip, fh_creacion, browser) 
+        $sql = "INSERT INTO consentimientos(nombres, documento, phone, mail, req_acomp, user_agent, ip) 
                 VALUES (
                     :names
                     ,:doc
@@ -52,20 +52,7 @@ function save_consentimiento($data)
                     ,:ip
                     )";
 
-        $sentencia = $mbd->prepare($sql);
-        /*
-        $sentencia->bindParam(':names', $data['name']);
-        $sentencia->bindParam(':doc', $data['documento']);
-        $sentencia->bindParam(':phone', $data['phone']);
-        $sentencia->bindParam(':mail', $data['email']);
-        $sentencia->bindParam(':req_acomp', $data['select']);
-        $sentencia->bindParam(':user_agent', $_SERVER['HTTP_USER_AGENT']);
-        $sentencia->bindParam(':ip', $ip);
-        //$sentencia->bindParam(':browser', $data['name']);
-        //$sentencia->bindParam(':fh_creacion', new DateTime('now'));
-        $sentencia->execute();
-        */
-        $data = [
+        $SqlData = [
             'names' => $data['name'],
             'doc' => $data['documento'],
             'phone' => $data['phone'],
@@ -74,8 +61,8 @@ function save_consentimiento($data)
             'user_agent' =>  $_SERVER['HTTP_USER_AGENT'],
             'ip' => $ip,
         ];
-        $stmt= $mbd->prepare($sql);
-        $stmt->execute($data);
+        $stmt = $mbd->prepare($sql);
+        $stmt->execute($SqlData);
 
         echo json_encode(
             [
@@ -84,7 +71,11 @@ function save_consentimiento($data)
             ]
         );
     } catch (PDOException $e) {
-        print "¡Error!: " . $e->getMessage() . "<br/>";
-        die();
+        echo json_encode(
+            [
+                'staus' => false,
+                'msg' => $e->getMessage()
+            ]
+        );
     }
 }
